@@ -25,6 +25,9 @@ except:
     browser.switch_to.window(browser.window_handles[0])
 browser.get('https://translate.google.com/')
 
+input_xpath_list = ['//*[@id="source"]','//*[@aria-label="Source text"]']
+output_xpath_list = ['//*[@class="tlid-translation translation"]','//*[@class="VIiyi"]']
+Clear_xpath_list = ['//*[@aria-label="Clear source text"]/i','//*[@class="clear-wrap"]/div/div']
 def connection():
     a3 = 0
     while a3 == 0:
@@ -57,18 +60,40 @@ def check_translated_textarea():
     tr_clear = False
     while tr_clear == False:
         tr_val = ''
-        for tr_box in browser.find_elements_by_xpath('//*[@class="tlid-translation translation"]'):
-            tr_val = 'Exist'
-            print(tr_val)
-            time.sleep(1)
+        for output_xpath in output_xpath_list:
+            for tr_box in browser.find_elements_by_xpath(output_xpath):
+                tr_val = 'Wait until Output Clear'
+                print(tr_val)
+                time.sleep(1)    
         if tr_val == '':
             tr_clear = True
         else:
+            browser.refresh()
+            time.sleep(2)
+            click_on_clear()
             tr_clear = False
 
-
+def click_on_clear():
+    click_clear = False
+    while click_clear == False:
+        for Clear_xpath in Clear_xpath_list:
+            try:
+                for clear_btn in browser.find_elements_by_xpath(Clear_xpath):
+                    clear_btn.click()
+                    time.sleep(2)    
+                    click_clear = True
+                    break
+            except:
+                click_clear = True
+                
+            if click_clear == True:
+                break
+        if click_clear == False:
+            print('Clear Button Not Found')
+            time.sleep(2)
+            
 def click_on_tryagain():
-    print(' -_-  Please wait browser will be refresh automatically after 30 SEC  -_- ')
+    print(' -_-  Please wait browser will be refresh automatically after 30 SEC === NO OUTPUT FOUND === -_- ')
     time.sleep(30)
     try_btn_found = False
     try:
@@ -82,6 +107,7 @@ def click_on_tryagain():
         browser.refresh()
         time.sleep(5)
         for i in browser.find_elements_by_xpath('//*[@id="source"]'):
+            click_on_clear()
             i.clear()
             break
     time.sleep(2)
@@ -101,8 +127,7 @@ def language_detect():
 
 def tarnslation():
     try:
-        input_xpath_list = ['//*[@id="source"]','//*[@aria-label="Source text"]']
-        output_xpath_list = ['//*[@class="tlid-translation translation"]','//*[@class="VIiyi"]']
+        
         trasns = connection()
         cur = trasns.cursor()
         # cur.execute(f"SELECT * FROM `tenders_db`.`l2l_tenders_tbl` WHERE Posting_Id='523417'")  # For test
@@ -157,6 +182,7 @@ def tarnslation():
                     is_available = 1
                     for input_xpath in input_xpath_list:
                         for i in browser.find_elements_by_xpath(input_xpath):
+                            click_on_clear()
                             i.clear()
                             notice_no = re.sub('\s+', ' ', notice_no)
                             notice_no = notice_no.replace('<br>','<br>\n').replace('<BR>','<br>\n').replace('<Br>','<br>\n')
@@ -188,6 +214,7 @@ def tarnslation():
                 if purchaser != '':
                     for input_xpath in input_xpath_list:
                         for i in browser.find_elements_by_xpath(input_xpath):
+                            click_on_clear()
                             i.clear()
                             purchaser = re.sub('\s+', ' ', purchaser)
                             purchaser = purchaser.replace('<br>','<br>\n').replace('<BR>','<br>\n').replace('<Br>','<br>\n')
@@ -227,6 +254,7 @@ def tarnslation():
                 if address !='':
                     for input_xpath in input_xpath_list:
                         for i in browser.find_elements_by_xpath(input_xpath):
+                            click_on_clear()
                             i.clear()
                             address = re.sub('\s+', ' ', address)
                             address = address.replace('<br>','<br>\n').replace('<BR>','<br>\n').replace('<Br>','<br>\n')
@@ -264,6 +292,7 @@ def tarnslation():
                 if contractorname != '':
                     for input_xpath in input_xpath_list:
                         for i in browser.find_elements_by_xpath(input_xpath):
+                            click_on_clear()
                             i.clear()
                             contractorname = re.sub('\s+', ' ', contractorname)
                             contractorname = contractorname.replace('<br>','<br>\n').replace('<BR>','<br>\n').replace('<Br>','<br>\n')
@@ -303,6 +332,7 @@ def tarnslation():
                 if cont_add !='':
                     for input_xpath in input_xpath_list:
                         for i in browser.find_elements_by_xpath(input_xpath):
+                            click_on_clear()
                             i.clear()
                             cont_add = re.sub('\s+', ' ', cont_add)
                             cont_add = cont_add.replace('<br>','<br>\n').replace('<BR>','<br>\n').replace('<Br>','<br>\n')
@@ -340,6 +370,7 @@ def tarnslation():
                 if title != "":
                     for input_xpath in input_xpath_list:
                         for i in browser.find_elements_by_xpath(input_xpath):
+                            click_on_clear()
                             i.clear()
                             title = re.sub('\s+', ' ', title)
                             title = title.replace('<br>','<br>\n').replace('<BR>','<br>\n').replace('<Br>','<br>\n')
@@ -357,7 +388,7 @@ def tarnslation():
                         time.sleep(1)
                         if If_other_Than_English == True:
                             for output_xpath in output_xpath_list:
-                                for en_title in browser.find_elements_by_xpath('//*[@class="tlid-translation translation"]'):
+                                for en_title in browser.find_elements_by_xpath(output_xpath):
                                     en_title = en_title.get_attribute('innerText')
                                     en_title_done = True
                                     break
@@ -378,6 +409,7 @@ def tarnslation():
                 if description != "":
                     for input_xpath in input_xpath_list:
                         for i in browser.find_elements_by_xpath(input_xpath):
+                            click_on_clear()
                             i.clear()
                             description = re.sub('\s+', ' ', description)
                             description = description.replace('<br>','<br>\n').replace('<BR>','<br>\n').replace('<Br>','<br>\n')
