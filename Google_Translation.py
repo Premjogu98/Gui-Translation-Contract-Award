@@ -68,9 +68,8 @@ def check_translated_textarea():
         if tr_val == '':
             tr_clear = True
         else:
-            browser.refresh()
+            browser.get('https://translate.google.com/')
             time.sleep(2)
-            click_on_clear()
             tr_clear = False
 
 def click_on_clear():
@@ -79,13 +78,12 @@ def click_on_clear():
         for Clear_xpath in Clear_xpath_list:
             try:
                 for clear_btn in browser.find_elements_by_xpath(Clear_xpath):
-                    clear_btn.click()
-                    time.sleep(2)    
                     click_clear = True
+                    clear_btn.click()
+                    time.sleep(2)
                     break
             except:
-                click_clear = True
-                
+                pass  
             if click_clear == True:
                 break
         if click_clear == False:
@@ -148,6 +146,12 @@ def tarnslation():
         # while Exception_loop == True:
         for row in rows:
             try:
+                try:
+                    browser.switch_to.window(browser.window_handles[1])
+                    browser.close()
+                    browser.switch_to.window(browser.window_handles[0])
+                except:
+                    pass
                 id = "%s" % (row["id"])
                 source = "%s" % (html.unescape(row["col1"]))
                 notice_no = "%s" % (html.unescape(row["ref_number"]))
@@ -507,8 +511,7 @@ def tarnslation():
                 exc_type, exc_obj, exc_tb = sys.exc_info()
                 fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
                 print("Error ON : ", sys._getframe().f_code.co_name + "--> " + str(e), "\n", exc_type, "\n", fname,"\n",exc_tb.tb_lineno)
-                time.sleep(3)
-                browser.refresh()
+                browser.get('https://translate.google.com/')
                 time.sleep(2)
                 # Exception_loop = True
         tarnslation()
