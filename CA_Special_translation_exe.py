@@ -219,8 +219,8 @@ def tarnslation():
                 en_description_done = False
                 en_contractorname_done = False
                 en_cont_add_done = False
-
-                print(f'Selected Source : {Global_var.Source_Name}')
+                source_name = Text_query.partition('IN (')[2].partition(')')[0]
+                print(f'Selected Source : {source_name}')
                 print(f'Id : {id}')
                 print(f'Source : {source}')
 
