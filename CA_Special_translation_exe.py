@@ -251,7 +251,7 @@ def tarnslation():
                         time.sleep(2)
                         for output_xpath in output_xpath_list:
                             for en_notice_no in browser.find_elements_by_xpath(output_xpath):
-                                en_notice_no = en_notice_no.get_attribute('innerText').replace("'", "''").replace("< ", "<").replace(" >", ">").replace("</ ", "</").replace("\\", "\\\\").strip()
+                                en_notice_no = en_notice_no.get_attribute('innerText')
                                 en_notice_no_done = True
                                 break
                             if en_notice_no_done == True:
@@ -289,7 +289,7 @@ def tarnslation():
                         # if If_other_Than_English == True:
                         for output_xpath in output_xpath_list:
                             for en_purchaser in browser.find_elements_by_xpath(output_xpath):
-                                en_purchaser = en_purchaser.get_attribute('innerText').upper().replace("'", "''").replace("< ", "<").replace(" >", ">").replace("</ ", "</").replace("\\", "\\\\").strip()
+                                en_purchaser = en_purchaser.get_attribute('innerText').upper()
                                 en_purchaser_done = True
                                 break
                             if en_purchaser_done == True:
@@ -332,7 +332,7 @@ def tarnslation():
                         # if If_other_Than_English == True:
                         for output_xpath in output_xpath_list:
                             for en_address in browser.find_elements_by_xpath(output_xpath):
-                                en_address = en_address.get_attribute('innerText').replace("'", "''").replace("< ", "<").replace(" >", ">").replace("</ ", "</").replace("\\", "\\\\").strip()
+                                en_address = en_address.get_attribute('innerText')
                                 en_address_done = True
                                 break
                             if en_address_done == True:
@@ -373,7 +373,7 @@ def tarnslation():
                         # if If_other_Than_English == True:
                         for output_xpath in output_xpath_list:
                             for en_contractorname in browser.find_elements_by_xpath(output_xpath):
-                                en_contractorname = en_contractorname.get_attribute('innerText').upper().replace("'", "''").replace("< ", "<").replace(" >", ">").replace("</ ", "</").replace("\\", "\\\\").strip()
+                                en_contractorname = en_contractorname.get_attribute('innerText').upper()
                                 en_contractorname_done = True
                                 break
                             if en_contractorname_done == True:
@@ -416,7 +416,7 @@ def tarnslation():
                         # if If_other_Than_English == True:
                         for output_xpath in output_xpath_list:
                             for en_cont_add in browser.find_elements_by_xpath(output_xpath):
-                                en_cont_add = en_cont_add.get_attribute('innerText').replace("'", "''").replace("< ", "<").replace(" >", ">").replace("</ ", "</").replace("\\", "\\\\").strip()
+                                en_cont_add = en_cont_add.get_attribute('innerText')
                                 en_cont_add_done = True
                                 break
                             if en_cont_add_done == True:
@@ -457,15 +457,15 @@ def tarnslation():
                         # if If_other_Than_English == True:
                         for output_xpath in output_xpath_list:
                             for en_title in browser.find_elements_by_xpath(output_xpath):
-                                en_title = en_title.get_attribute('innerText').replace("'", "''").replace("< ", "<").replace(" >", ">").replace("</ ", "</").replace("\\", "\\\\").strip()
+                                en_title = en_title.get_attribute('innerText')
                                 en_title_done = True
                                 break
                             if en_title_done == True:
                                 break
                         if en_title_done == False:
                             click_on_tryagain()
-                        else:
-                            en_title = title
+                        # else:
+                        #     en_title = title
                             # en_title_done = True
                 else:
                     en_title = title
@@ -501,7 +501,7 @@ def tarnslation():
                         # if If_other_Than_English == True:
                         for output_xpath in output_xpath_list:
                             for en_description in browser.find_elements_by_xpath(output_xpath):
-                                en_description = en_description.get_attribute('innerText').replace("'", "''").replace("< ", "<").replace(" >", ">").replace("</ ", "</").replace("\\", "\\\\").strip()
+                                en_description = en_description.get_attribute('innerText')
                                 en_description_done = True
                                 break
                             if en_description_done == True:
@@ -517,13 +517,13 @@ def tarnslation():
 
                 print(f'Details : {en_description}')
 
-                # en_notice_no = en_notice_no.replace("'", "''").replace("< ", "<").replace(" >", ">").replace("</ ", "</").replace("\\", "\\\\")
-                # en_purchaser = en_purchaser.replace("'", "''").replace("< ", "<").replace(" >", ">").replace("</ ", "</").replace("\\", "\\\\")
-                # en_address = en_address.replace("'", "''").replace("< ", "<").replace(" >", ">").replace("</ ", "</").replace("\\", "\\\\")
-                # en_title = en_title.replace("'", "''").replace("< ", "<").replace(" >", ">").replace("</ ", "</").replace("\\", "\\\\")
-                # en_description = en_description.replace("'", "''").replace("< ", "<").replace(" >", ">").replace("</ ", "</").replace("\\", "\\\\")
-                # en_contractorname = en_contractorname.replace("'", "''").replace("< ", "<").replace(" >", ">").replace("</ ", "</").replace("\\", "\\\\")
-                # en_cont_add = en_cont_add.replace("'", "''").replace("< ", "<").replace(" >", ">").replace("</ ", "</").replace("\\", "\\\\")
+                en_notice_no = en_notice_no.replace("'", "''").replace("< ", "<").replace(" >", ">").replace("</ ", "</").replace("\\", "\\\\")
+                en_purchaser = en_purchaser.replace("'", "''").replace("< ", "<").replace(" >", ">").replace("</ ", "</").replace("\\", "\\\\")
+                en_address = en_address.replace("'", "''").replace("< ", "<").replace(" >", ">").replace("</ ", "</").replace("\\", "\\\\")
+                en_title = en_title.replace("'", "''").replace("< ", "<").replace(" >", ">").replace("</ ", "</").replace("\\", "\\\\")
+                en_description = en_description.replace("'", "''").replace("< ", "<").replace(" >", ">").replace("</ ", "</").replace("\\", "\\\\")
+                en_contractorname = en_contractorname.replace("'", "''").replace("< ", "<").replace(" >", ">").replace("</ ", "</").replace("\\", "\\\\")
+                en_cont_add = en_cont_add.replace("'", "''").replace("< ", "<").replace(" >", ">").replace("</ ", "</").replace("\\", "\\\\")
 
                 if len(en_title) > 250:
                     en_title = en_title[:246]
@@ -552,6 +552,8 @@ def tarnslation():
                             trasns = connection()
                             cur = trasns.cursor()
                             Update_Website_Status = f"UPDATE ContractAwardFinal SET is_english = '0', ref_number='{en_notice_no}',purchasername='{en_purchaser}',purchaseradd='{en_address}',contractorname='{en_contractorname}',cont_add='{en_cont_add}',short_descp='{en_title}',award_detail='{en_description}' WHERE id = '{id}'"
+                            # Update_Website_Status = f"UPDATE ContractAwardFinal SET is_english = '0', ref_number='{en_notice_no}',purchasername='{en_purchaser}',purchaseradd='{en_address}',contractorname='{en_contractorname}',cont_add='{en_cont_add}',short_descp='{en_title}',award_detail='{en_description}' WHERE id = '{id}'"
+
                             # print(Update_Website_Status)
                             cur.execute(Update_Website_Status)
                             trasns.commit()

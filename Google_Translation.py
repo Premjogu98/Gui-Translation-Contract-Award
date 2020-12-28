@@ -166,7 +166,7 @@ def tarnslation():
         
         trasns = connection()
         cur = trasns.cursor()
-        # cur.execute(f"SELECT * FROM `tenders_db`.`l2l_tenders_tbl` WHERE Posting_Id='523417'")  # For test
+        # cur.execute(f"SELECT * FROM `contractawards_db`.`ContractAwardFinal` WHERE id = 474881")  # For test
         cur.execute(f"SELECT * FROM ContractAwardFinal WHERE is_english = '1' AND `col1` IN ({str(Global_var.Source_Name)}) ORDER BY id ASC")  # 0 = English, 1 = Non-English
         rows = cur.fetchall()
 
@@ -462,8 +462,8 @@ def tarnslation():
                                 break
                         if en_title_done == False:
                             click_on_tryagain()
-                        else:
-                            en_title = title
+                        # else:
+                        #     en_title = title
                             # en_title_done = True
                 else:
                     en_title = title
