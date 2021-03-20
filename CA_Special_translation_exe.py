@@ -9,6 +9,7 @@ import string
 import Global_var
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 app = wx.App()
 
 chrome_options = Options()
@@ -173,10 +174,10 @@ def tarnslation():
         rows = cur.fetchall()
 
         if len(rows) == 0:
+            browser.quit()
             wx.MessageBox(' -_-  No Contract Award Available For Translation -_- ', 'CA Special Translation Exe', wx.OK | wx.ICON_INFORMATION)
             time.sleep(2)
-            browser.close()
-            sys.exit()
+            quit()
 
         print(f' Total Contract Award Found For Translation : {len(rows)}')
         count = 0
@@ -244,7 +245,7 @@ def tarnslation():
                         if is_available == 0:
                             break
                     if is_available == 1:
-                        wx.MessageBox('Something Went Wrong Please Refresh Google Translation Page Then Click On -_- OK -_- ','Contract Award GUI Google Translation ', wx.OK | wx.ICON_WARNING)
+                        wx.MessageBox('Something Went Wrong Please Refresh Google Translation Page Then Click On -_- OK -_- ','Contract Award Special Google Translation Exe ', wx.OK | wx.ICON_WARNING)
                         time.sleep(2)
                         # something_Went_wrong() # if Chrome Hanged or some other thing happend with chrome
                     else:
@@ -281,7 +282,7 @@ def tarnslation():
                         if is_available == 0:
                             break
                     if is_available == 1:
-                        wx.MessageBox('Something Went Wrong Please Refresh Google Translation Page Then Click On -_- OK -_- ','Contract Award GUI Google Translation ', wx.OK | wx.ICON_WARNING)
+                        wx.MessageBox('Something Went Wrong Please Refresh Google Translation Page Then Click On -_- OK -_- ','Contract Award Special Google Translation Exe ', wx.OK | wx.ICON_WARNING)
                         time.sleep(2)
                         # something_Went_wrong() # if Chrome Hanged or some other thing happend with chrome
                     else:
@@ -324,7 +325,7 @@ def tarnslation():
                         if is_available == 0:
                             break
                     if is_available == 1:
-                        wx.MessageBox('Something Went Wrong Please Refresh Google Translation Page Then Click On -_- OK -_- ','Contract Award GUI Google Translation ', wx.OK | wx.ICON_WARNING)
+                        wx.MessageBox('Something Went Wrong Please Refresh Google Translation Page Then Click On -_- OK -_- ','Contract Award Special Google Translation Exe ', wx.OK | wx.ICON_WARNING)
                         time.sleep(2)
                         # something_Went_wrong() # if Chrome Hanged or some other thing happend with chrome
                     else:
@@ -365,7 +366,7 @@ def tarnslation():
                         if is_available == 0:
                             break
                     if is_available == 1:
-                        wx.MessageBox('Something Went Wrong Please Refresh Google Translation Page Then Click On -_- OK -_- ','Contract Award GUI Google Translation ', wx.OK | wx.ICON_WARNING)
+                        wx.MessageBox('Something Went Wrong Please Refresh Google Translation Page Then Click On -_- OK -_- ','Contract Award Special Google Translation Exe ', wx.OK | wx.ICON_WARNING)
                         time.sleep(2)
                         # something_Went_wrong() # if Chrome Hanged or some other thing happend with chrome
                     else:
@@ -408,7 +409,7 @@ def tarnslation():
                         if is_available == 0:
                             break
                     if is_available == 1:
-                        wx.MessageBox('Something Went Wrong Please Refresh Google Translation Page Then Click On -_- OK -_- ','Contract Award GUI Google Translation ', wx.OK | wx.ICON_WARNING)
+                        wx.MessageBox('Something Went Wrong Please Refresh Google Translation Page Then Click On -_- OK -_- ','Contract Award Special Google Translation Exe ', wx.OK | wx.ICON_WARNING)
                         time.sleep(2)
                         # something_Went_wrong() # if Chrome Hanged or some other thing happend with chrome
                     else:
@@ -449,7 +450,7 @@ def tarnslation():
                         if is_available == 0:
                             break
                     if is_available == 1:
-                        wx.MessageBox('Something Went Wrong Please Refresh Google Translation Page Then Click On -_- OK -_- ','Contract Award GUI Google Translation ', wx.OK | wx.ICON_WARNING)
+                        wx.MessageBox('Something Went Wrong Please Refresh Google Translation Page Then Click On -_- OK -_- ','Contract Award Special Google Translation Exe ', wx.OK | wx.ICON_WARNING)
                         time.sleep(2)
                         # something_Went_wrong() # if Chrome Hanged or some other thing happend with chrome
                     else:
@@ -493,7 +494,7 @@ def tarnslation():
                         if is_available == 0:
                             break
                     if is_available == 1:
-                        wx.MessageBox('Something Went Wrong Please Refresh Google Translation Page Then Click On -_- OK -_- ','Contract Award GUI Google Translation ', wx.OK | wx.ICON_WARNING)
+                        wx.MessageBox('Something Went Wrong Please Refresh Google Translation Page Then Click On -_- OK -_- ','Contract Award Special Google Translation Exe ', wx.OK | wx.ICON_WARNING)
                         time.sleep(2)
                         # something_Went_wrong() # if Chrome Hanged or some other thing happend with chrome
                     else:
@@ -552,9 +553,6 @@ def tarnslation():
                             trasns = connection()
                             cur = trasns.cursor()
                             Update_Website_Status = f"UPDATE ContractAwardFinal SET is_english = '0', ref_number='{en_notice_no}',purchasername='{en_purchaser}',purchaseradd='{en_address}',contractorname='{en_contractorname}',cont_add='{en_cont_add}',short_descp='{en_title}',award_detail='{en_description}' WHERE id = '{id}'"
-                            # Update_Website_Status = f"UPDATE ContractAwardFinal SET is_english = '0', ref_number='{en_notice_no}',purchasername='{en_purchaser}',purchaseradd='{en_address}',contractorname='{en_contractorname}',cont_add='{en_cont_add}',short_descp='{en_title}',award_detail='{en_description}' WHERE id = '{id}'"
-
-                            # print(Update_Website_Status)
                             cur.execute(Update_Website_Status)
                             trasns.commit()
                             a = True
@@ -572,27 +570,44 @@ def tarnslation():
                     clear = lambda: os.system('cls')  # Clear command Prompt
                     clear()
                     browser.delete_all_cookies()
-                    browser.execute_script("location.reload(true);")
+                    try:
+                        browser.execute_script("window.open('');")
+                        browser.switch_to.window(browser.window_handles[1])
+                        browser.get('chrome://settings/clearBrowserData')
+                        time.sleep(2)
+                        actions = ActionChains(browser) 
+                        actions.send_keys(Keys.TAB * 7 + Keys.ENTER) # confirm
+                        actions.perform()
+                        time.sleep(10) # wait some time to finish
+                        browser.close()
+                        time.sleep(1)
+                        browser.switch_to.window(browser.window_handles[0])
+                    except:
+                        pass
+                    # browser.execute_script("location.reload(true);")
                     time.sleep(4)
                     print(f'Translation Completed : {count}  / {len(rows)}\n')
                     
             except Exception as e:
-                exc_type, exc_obj, exc_tb = sys.exc_info()
+                exc_tb = sys.exc_info()
                 fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
                 error_sen = f"Error ON : Error Details Below \nFunction Name: {sys._getframe().f_code.co_name}\nException {str(e)}Error File Name: {fname}\nError Line Number: {exc_tb.tb_lineno}"
                 print(error_sen)
-                browser.get('https://translate.google.com/')
+                try:
+                    browser.get('https://translate.google.com/')
+                except:
+                    wx.MessageBox(' -_- Please Refresh The Page Then Click On OK MessageBox -_- ','Contract Award Special Google Translation Exe',wx.OK | wx.ICON_ERROR)
                 time.sleep(2)
                 # Exception_loop = True
     except Exception as e:
-        exc_type, exc_obj, exc_tb = sys.exc_info()
+        exc_tb = sys.exc_info()
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
         # print("Error ON : ", sys._getframe().f_code.co_name + "--> " + str(e), "\n", exc_type, "\n", fname, "\n",exc_tb.tb_lineno)
         error_sen = f"Error ON : Error Details Below\nFunction Name: {sys._getframe().f_code.co_name}\nException {str(e)}Error File Name: {fname}\nError Line Number: {exc_tb.tb_lineno}"
         print(error_sen)
-        wx.MessageBox(' -_- (ERROR ON MAIN EXCEPTION) -_- ',' CA Special Translation Exe ',wx.OK | wx.ICON_ERROR)
-        time.sleep(2)
+        wx.MessageBox(' -_- (ERROR ON MAIN EXCEPTION) -_- ',' Contract Award Special Google Translation Exe ',wx.OK | wx.ICON_ERROR)
         browser.close()
+        time.sleep(2)
         sys.exit()
 
 
