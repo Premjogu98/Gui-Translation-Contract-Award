@@ -124,12 +124,13 @@ class MyFrame(wx.Frame):
         self.cb_list = []
         for source in Source_list:
             self.scroll_panel = wx.Panel(self.scroll, size=(772, 30), pos=(4, self.Panel_Height),style=wx.NO_BORDER)
-            self.scroll_panel.SetBackgroundColour('#FF3F0B')
+            self.scroll_panel.SetBackgroundColour('#00B18A')
             self.cb = wx.CheckBox(self.scroll_panel, -1, f' {str(source)}', (12, 4),(500,20),style=wx.NO_BORDER)
-            font = wx.Font(12, wx.DECORATIVE, wx.ITALIC, wx.NORMAL)
+            font = wx.Font(10, wx.DECORATIVE, wx.ITALIC, wx.NORMAL)
             self.cb.SetFont(font)
             self.cb.SetForegroundColour('White')
             self.cb_list.append(self.cb)
+            self.cb.SetCursor(wx.Cursor(wx.CURSOR_HAND))
 
             self.bSizer.Add(self.scroll_panel, 0, wx.ALL, 5)
             self.scroll.SetupScrolling()

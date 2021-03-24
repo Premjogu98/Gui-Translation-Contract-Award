@@ -10,6 +10,7 @@ import Global_var
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
+import linecache
 app = wx.App()
 
 chrome_options = Options()
@@ -34,6 +35,17 @@ Text_query = query.read()
 input_xpath_list = ['//*[@id="source"]','//*[@aria-label="Source text"]']
 output_xpath_list = ['//*[@class="tlid-translation translation"]','//*[@class="VIiyi"]']
 Clear_xpath_list = ['//*[@aria-label="Clear source text"]/i','//*[@class="clear-wrap"]/div/div']
+
+
+def Print_Exception_detail(e):
+    exc_type, exc_obj, tb = sys.exc_info()
+    f = tb.tb_frame
+    lineno = tb.tb_lineno
+    filename = f.f_code.co_filename
+    linecache.checkcache(filename)
+    line = linecache.getline(filename,lineno, f.f_globals)
+    print(f'EXCEPTION: {e}\nLINE NO: {lineno}\nError Line Text: "{line.strip()}")\nException Type: {exc_type}\n')
+
 def connection():
     a3 = 0
     while a3 == 0:
@@ -41,9 +53,8 @@ def connection():
             connection = pymysql.connect(host='185.142.34.92',user='ams',password='TgdRKAGedt%h',db='contractawards_db',charset='utf8',cursorclass=pymysql.cursors.DictCursor)
             return connection
         except Exception as e:
-            exc_type, exc_obj, exc_tb = sys.exc_info()
-            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            print("Error ON : ", sys._getframe().f_code.co_name + "--> " + str(e), "\n", exc_type, "\n", fname,"\n", exc_tb.tb_lineno)
+            print('Error On Connection Function\n')
+            Print_Exception_detail(e)
             time.sleep(10)
             a3 = 0
 
@@ -177,7 +188,7 @@ def tarnslation():
             browser.quit()
             wx.MessageBox(' -_-  No Contract Award Available For Translation -_- ', 'CA Special Translation Exe', wx.OK | wx.ICON_INFORMATION)
             time.sleep(2)
-            quit()
+            sys.exit()
 
         print(f' Total Contract Award Found For Translation : {len(rows)}')
         count = 0
@@ -557,7 +568,8 @@ def tarnslation():
                             trasns.commit()
                             a = True
                         except Exception as e:
-                            print(f'ERROR ON UPDATE QUERY EXCEPTION: {e}')
+                            print('ERROR ON UPDATE QUERY EXCEPTION\n')
+                            Print_Exception_detail(e)
                             trasns.close()
                             a = False
                             time.sleep(5)
@@ -589,22 +601,21 @@ def tarnslation():
                     print(f'Translation Completed : {count}  / {len(rows)}\n')
                     
             except Exception as e:
-                exc_tb = sys.exc_info()
-                fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-                error_sen = f"Error ON : Error Details Below \nFunction Name: {sys._getframe().f_code.co_name}\nException {str(e)}Error File Name: {fname}\nError Line Number: {exc_tb.tb_lineno}"
-                print(error_sen)
+                print('Error On translation Funtion\n')
+                Print_Exception_detail(e)
                 try:
                     browser.get('https://translate.google.com/')
                 except:
                     wx.MessageBox(' -_- Please Refresh The Page Then Click On OK MessageBox -_- ','Contract Award Special Google Translation Exe',wx.OK | wx.ICON_ERROR)
                 time.sleep(2)
                 # Exception_loop = True
+        browser.quit()
+        wx.MessageBox(' -_-  All Translation Done -_- ', 'CA Special Translation Exe', wx.OK | wx.ICON_INFORMATION)
+        time.sleep(2)
+        sys.exit()
     except Exception as e:
-        exc_tb = sys.exc_info()
-        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-        # print("Error ON : ", sys._getframe().f_code.co_name + "--> " + str(e), "\n", exc_type, "\n", fname, "\n",exc_tb.tb_lineno)
-        error_sen = f"Error ON : Error Details Below\nFunction Name: {sys._getframe().f_code.co_name}\nException {str(e)}Error File Name: {fname}\nError Line Number: {exc_tb.tb_lineno}"
-        print(error_sen)
+        print('Error On Main Exception\n')
+        Print_Exception_detail(e)
         wx.MessageBox(' -_- (ERROR ON MAIN EXCEPTION) -_- ',' Contract Award Special Google Translation Exe ',wx.OK | wx.ICON_ERROR)
         browser.close()
         time.sleep(2)
